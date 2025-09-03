@@ -1,0 +1,48 @@
+# Go build artifacts
+bin/
+build/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage/
+
+# Go Modules vendor folder (uncomment if you vendor)
+# vendor/
+
+# Logs
+logs/
+*.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Temporary files
+*.swp
+*.swo
+*~
+.tmp/
+
+# Docker
+.tmp-docker/
+.docker/
+
+# Database dumps
+*.sql
+*.sql.gz
