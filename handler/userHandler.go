@@ -28,3 +28,13 @@ func (srv *UserHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 	wrapper.JSON(w, http.StatusOK, true, res, "")
 
 }
+
+
+func (srv *UserHandler) FetchUserList(w http.ResponseWriter,r *http.Request){
+	userList,err:=srv.SRV.FetchAllUsers()
+	if(err!=nil){
+		wrapper.JSON(w,http.StatusInternalServerError,false,nil,err.Error())
+		return
+	}
+	wrapper.JSON(w,http.StatusOK,true,userList,"")
+}

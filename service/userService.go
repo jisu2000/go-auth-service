@@ -24,3 +24,21 @@ func (srv *UserService) CreateNewUser(request request.UserRegisterRequest) (resp
 	createdUser, err := srv.REPO.SaveUser(&modelUser)
 	return mapper.ToUserResponse(createdUser), err
 }
+
+func (srv *UserService) FetchAllUsers() ([]response.UserResponse, error) {
+	var (
+		users []model.User
+		err   error
+	)
+	users, err = srv.REPO.GetAllUsers()
+	if err != nil {
+		panic("Unable to Fetch User List")
+	}
+
+	respUser := make([]response.UserResponse, 0)
+
+	for _, v := range users {
+		respUser = append(respUser, mapper.ToUserResponse(v))
+	}
+	return respUser, nil
+}

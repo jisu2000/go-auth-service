@@ -17,7 +17,8 @@ func main() {
 	userService := &service.UserService{REPO: userRepo}
 	userHandler := &handler.UserHandler{SRV: userService}
 	r := mux.NewRouter()
-	r.HandleFunc("/user/register", userHandler.RegisterUser).Methods("POST")
+	r.HandleFunc("/users/register", userHandler.RegisterUser).Methods("POST")
+	r.HandleFunc("/users/fetch_all",userHandler.FetchUserList).Methods("GET")
 	log.Println("Server running at http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
