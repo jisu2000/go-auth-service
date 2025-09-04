@@ -17,6 +17,7 @@ func ToUserModel(req request.UserRegisterRequest) model.User {
 
 func ToUserResponse(user model.User) response.UserResponse {
 	return response.UserResponse{
+		Id:           user.Id,
 		Name:         user.Name,
 		Email:        user.Email,
 		MobileNumber: user.MobileNumber,
