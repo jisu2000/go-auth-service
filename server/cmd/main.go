@@ -14,11 +14,17 @@ import (
 func main() {
 	database := db.Connect()
 	userRepo := &repo.UserRepo{DB: database}
-	userService := &service.UserService{REPO: userRepo}
-	userHandler := &handler.UserHandler{SRV: userService}
+	roleRepo := &repo.RoleRepo{DB: database}
+	refreshTokenRepo := &repo.RefreshTokenRepo{DB: database}
+	userService := &service.UserService{REPO: userRepo, ROLE_REPO: roleRepo}
+	referTokenService := &service.RefreshTokenService{USERREPO: userRepo, REFRESHREPO: refreshTokenRepo}
+	userHandler := &handler.UserHandler{SRV: userService, RSRV: referTokenService}
 	r := mux.NewRouter()
 	r.HandleFunc("/users/register", userHandler.RegisterUser).Methods("POST")
-	r.HandleFunc("/users/fetch_all",userHandler.FetchUserList).Methods("GET")
+	r.HandleFunc("/users/login", userHandler.LoginUser).Methods("POST")
+	r.HandleFunc("/users/refresh_token", userHandler.VerifyAndGenerateRefreshToken).Methods("POST")
+	r.HandleFunc("/users/fetch_all", userHandler.FetchUserList).Methods("GET")
+	r.HandleFunc("/users/{id}", userHandler.DeleteUser).Methods("DELETE")
 	log.Println("Server running at http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

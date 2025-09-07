@@ -2,11 +2,13 @@ package jwt
 
 import (
 	"errors"
+	"log"
 	"os"
 	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 )
 
 type Claims struct {
@@ -16,6 +18,10 @@ type Claims struct {
 }
 
 func CreateToken(email string, roles []string) (string, time.Time, error) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	secret := []byte(os.Getenv("JWT_SECRET"))
 	ttlMin, _ := strconv.Atoi(os.ExpandEnv("JWT_TTL_MINUTES"))

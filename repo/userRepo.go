@@ -50,3 +50,25 @@ func (r *UserRepo) GetAllUsers() ([]model.User, error) {
 	return users, nil
 
 }
+
+func (r *UserRepo) DeleteUserById(id int) (int64, error) {
+	res, err := r.DB.Exec(query.DELETE_USER_QUERY, id)
+	if err != nil {
+		return 0, err
+	}
+	return res.RowsAffected()
+}
+
+func (r *UserRepo) GetUserByEmailOrMobileNumber(emailOrMobileNumber string) (model.User, error) {
+	var fetchedUser model.User
+	row := r.DB.QueryRow(query.FETCH_USER_BY_EMAIL_OR_MOBILE_NUMBER_QUERY, emailOrMobileNumber)
+	fetchErr := row.Scan(&fetchedUser.Id, &fetchedUser.CreatedAt, &fetchedUser.Name, &fetchedUser.Email, &fetchedUser.Password, &fetchedUser.MobileNumber)
+	return fetchedUser, fetchErr
+}
+
+func (r *UserRepo) GetUserById(id int) (model.User, error) {
+	var fetchedUser model.User
+	row := r.DB.QueryRow(query.FETCH_USER_BY_ID_QUERY, id)
+	fetchErr := row.Scan(&fetchedUser.Id, &fetchedUser.CreatedAt, &fetchedUser.Name, &fetchedUser.Email, &fetchedUser.MobileNumber)
+	return fetchedUser, fetchErr
+}

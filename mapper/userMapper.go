@@ -22,5 +22,6 @@ func ToUserResponse(user model.User) response.UserResponse {
 		Email:        user.Email,
 		MobileNumber: user.MobileNumber,
 		CreatedAt:    user.CreatedAt,
+		Password:     user.Password,
 	}
 }
